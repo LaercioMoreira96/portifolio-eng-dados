@@ -60,15 +60,14 @@ Raw Data (JSON, CSV, APIs)
 
 ```
 pipeline-spotify-pyspark/
-├── notebooks/
-│   ├── Aula_Pyspark.ipynb (exemplos educacionais)
-│   └── estudo_pyspark.ipynb (casos de uso avançados)
+│   
 ├── src/
 │   └── pipeline_consolidada.py (pipeline principal)
 ├── data/
 │   ├── bronze/    (dados brutos)
 │   ├── silver/    (dados validados)
 │   └── gold/      (dados prontos)
+│   └── spotify-data.csv /      (dados brutos)
 └── requirements.txt
 ```
 

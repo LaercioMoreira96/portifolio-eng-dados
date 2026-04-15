@@ -1,22 +1,18 @@
 # � Estudo Engenharia de Dados
 
-Repositório de **estudos e projetos** focados em engenharia de dados com Apache Spark, PySpark e processamento distribuído de dados.
+Repositório de **estudos e projetos** focados em engenharia de dados com PySpark 
 
 ## 📂 Projetos
 
 ### 1. 🎵 [Pipeline Spotify PySpark](./pipeline-spotify-pyspark)
-Pipeline ETL completo de dados Spotify com arquitetura medalhão (Bronze/Silver/Gold).
+Estudo - Pipeline ETL completo de dados Spotify com arquitetura medalhão (Bronze/Silver/Gold).
 
 **Stack:** PySpark, Python, SQL
 
----
 
-### 2. 📖 [Estudos PySpark](./estudos-pyspark)
-Notebooks educacionais e exemplos práticos de PySpark.
+### 1.  [Pipeline Calculo de Indicadores de Atendimento](./pipeline-calculo-indicadores-atendimento)
 
-**Stack:** PySpark, Jupyter Notebook
-
----
+Case real com poucas modificações de base estruturada. Tabela em camada gold para ser consumida pelo power bi
 
 ## 🛠️ Tecnologias
 
