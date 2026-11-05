@@ -1,4 +1,4 @@
-pyspark==3.5.0
+pyspark==3.5.8
 pandas==2.1.0
 numpy==1.26.0
 openpyxl==3.10.10
