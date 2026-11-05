@@ -1,32 +1,20 @@
-# � Estudo Engenharia de Dados
+# 🛠️ Estudos de Engenharia de Dados
 
-Repositório de **estudos e projetos** focados em engenharia de dados com PySpark 
+Projetos de estudo em engenharia de dados com PySpark.
 
 ## 📂 Projetos
 
-### 1. 🎵 [Pipeline Spotify PySpark](./pipeline-spotify-pyspark)
-Estudo - Pipeline ETL completo de dados Spotify com arquitetura medalhão (Bronze/Silver/Gold).
+### 🎵 [Pipeline Spotify PySpark](./pipeline-spotify-pyspark)
+Pipeline ETL com arquitetura Medallion (Bronze/Silver/Gold) sobre um dataset público do Spotify: ingestão em Parquet particionado, limpeza e tipagem, e uma tabela final com métricas por artista.
 
-**Stack:** PySpark, Python, SQL
+**Stack:** Python, PySpark, Parquet
 
+## 💡 Conceitos praticados
 
-### 1.  [Pipeline Calculo de Indicadores de Atendimento](./pipeline-calculo-indicadores-atendimento)
-
-Case real com poucas modificações de base estruturada. Tabela em camada gold para ser consumida pelo power bi
-
-## 🛠️ Tecnologias
-
-- Apache Spark, PySpark
-- Python 3.8+
-- Pandas, NumPy
-- SQL, Jupyter Notebook
-
-## 💡 Conceitos
-
-- 🏗️ Arquitetura Medalhão (Bronze/Silver/Gold)
-- 🔄 Pipelines ETL/ELT
-- 📊 Data Lakehouse
-- ⚡ Processamento distribuído
+- Arquitetura Medallion (Bronze/Silver/Gold)
+- Pipelines ETL com PySpark
+- Particionamento e armazenamento em Parquet
+- Logging e tratamento de erros
 
 ## 👤 Autor
 

@@ -1,93 +1,68 @@
 # 🎵 Pipeline Spotify PySpark
 
-**Pipeline ETL educacional** de processamento de dados com Apache Spark, demonstrando boas práticas de engenharia de dados em produção.
+Pipeline ETL de estudo em **PySpark**, organizado na arquitetura **Medallion** (Bronze → Silver → Gold), usando um dataset público de músicas do Spotify disponível no Kaggle.
 
 ## 🎯 Objetivo
 
-Exemplificar o processamento distribuído de dados em larga escala utilizando a arquitetura **Medallion** (Bronze → Silver → Gold), aplicando transformações, validações e otimizações tipicamente encontradas em pipelines reais.
+Praticar a estrutura de um pipeline em camadas: ingestão do dado bruto, limpeza e padronização, e uma tabela final agregada pronta para análise.
 
-## 📋 O que faz
+## 🔄 O que o pipeline faz
 
-- 🔄 **Extração (Bronze):** Leitura de dados de múltiplas fontes e formatos
-- 🛠️ **Validação (Silver):** Limpeza, normalização e tratamento de dados
-- 💾 **Agregação (Gold):** Cálculos, métricas e estruturação para consumo
-- 📊 **Otimizações:** Particionamento, caching, compressão Parquet
-- ✅ **Qualidade:** Validações de integridade e detectação de anomalias
+**1. Extração**
+- Lê as credenciais do Kaggle de um arquivo local (fora do versionamento)
+- Baixa o dataset [`spotify-data-from-pyspark-course`](https://www.kaggle.com/datasets/kapturovalexander/spotify-data-from-pyspark-course) via Kaggle CLI
 
-## 🏗️ Arquitetura Medallion
+**2. Bronze: dado bruto**
+- Grava o CSV original em Parquet, sem transformações
+- Adiciona `data_ingestao` e particiona por `data_particao`
+- Modo `append`, mantendo o histórico de cargas
 
-```
-Raw Data (JSON, CSV, APIs)
-    ↓
-[BRONZE LAYER]
-├─ Armazenamento bruto
-├─ Validação mínima
-└─ Rastreamento de origem
-    ↓
-[SILVER LAYER]
-├─ Deduplicação
-├─ Normalização
-├─ Enriquecimento de dados
-└─ Validações de qualidade
-    ↓
-[GOLD LAYER]
-├─ Agregações e transformações
-├─ Cálculos analíticos
-├─ Estrutura final otimizada
-└─ Pronto para BI/Analytics
-```
+**3. Silver: dado limpo**
+- Tipagem explícita das colunas (`INT`, `DOUBLE`, `BOOLEAN`)
+- Limpeza da coluna de artistas (texto `"['A', 'B']"` → array `[A, B]`)
+- Conversão da duração de milissegundos para segundos
+- Tradução dos nomes das colunas para português
+- Remoção de `release_date`, que não tem formato padronizado (algumas linhas trazem a data completa, outras só o ano)
 
-## 💡 Padrões Demonstrados
+**4. Gold: métricas por artista**
+- `explode` do array de artistas (uma música com vários artistas conta para cada um)
+- Agregação por artista: quantidade de músicas e média de popularidade, energia e ritmo
+- Filtro de artistas com mais de 5 músicas, ordenado por popularidade
 
-- ✅ **PySpark Catalyst:** Otimização automática de queries
-- ✅ **Window Functions:** Cálculos de janelas e rankings
-- ✅ **Particionamento:** Dividir dados por dimensão para performance
-- ✅ **Lazy Evaluation:** Como Spark otimiza execução
-- ✅ **UDFs:** User Defined Functions para lógica customizada
-- ✅ **Performance Tuning:** Caching, broadcast, shuffle optimization
-
-## 🛠️ Stack
-
-| Componente | Versão |
-|-----------|--------|
-| **PySpark** | 3.x+ |
-| **Python** | 3.8+ |
-| **Apache Spark** | 3.x+ |
-| **Pandas** | Para transformações complementares |
-| **Jupyter** | Desenvolvimento e documentação |
+**Observabilidade**
+- Logging em arquivo e no console, com a duração total da execução
+- Em caso de erro, registra o stack trace e interrompe o processo
 
 ## 📂 Estrutura
 
 ```
 pipeline-spotify-pyspark/
-│   
 ├── src/
-│   └── pipeline_consolidada.py (pipeline principal)
-├── data/
-│   ├── bronze/    (dados brutos)
-│   ├── silver/    (dados validados)
-│   └── gold/      (dados prontos)
-│   └── spotify-data.csv /      (dados brutos)
-└── requirements.txt
+│   └── pipeline_consolidada.py
+├── requirements.txt
+└── data/                         (gerado na execução, fora do Git)
+    ├── spotify-data.csv
+    ├── bronze/spotify/
+    ├── silver/spotify/
+    └── gold/spotify_performance_artistas/
 ```
 
-## 🚀 Casos de Uso Reais
+## ▶️ Como executar
 
-Este pipeline demonstra técnicas usadas em:
-- **Data Lakes:** Processamento e organização em camadas
-- **ETL em larga escala:** Múltiplos terabytes de dados
-- **Real-time Analytics:** Agregações rápidas e eficientes
-- **Machine Learning:** Preparação de dados para modelos
-- **Business Intelligence:** Estruturação para dashboards
+1. Instale as dependências: `pip install -r requirements.txt` (requer Java para o Spark)
+2. Crie `credenciais.txt` na pasta de execução com o usuário do Kaggle na 1ª linha e a API key na 2ª
+3. Execute: `python src/pipeline_consolidada.py`
 
-## 📊 Conhecimentos Aplicados
+## 🛠️ Stack
 
-- Distributed computing com Spark
-- SQL e otimização de queries
-- Arquitetura de dados (Medallion)
-- Processamento de grande volume
-- Monitoramento e logging
+Python · PySpark · Parquet · Kaggle CLI
+
+## 🔜 Próximos passos
+
+- Testes de qualidade de dados (nulos, duplicidade, faixas válidas)
+- Deduplicação na camada Silver
+- Credenciais via variáveis de ambiente em vez de arquivo texto
 
 ## 👤 Autor
 
-[Laércio Moreira](https://www.linkedin.com/in/laerciomoreira96) - Analista de Dados | Python | Spark
+[Laércio Moreira](https://www.linkedin.com/in/laerciomoreira96)
